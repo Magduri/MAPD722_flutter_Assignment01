@@ -10,15 +10,36 @@ class MainApp extends StatefulWidget {
   @override
   State<MainApp> createState() => _MainAppState();
 }
+
+class _MainAppState extends State<MainApp> {
+
 TextEditingController hoursController = TextEditingController();
 TextEditingController rateController = TextEditingController();
 
- double regularPay = 0.0;
+double regularPay = 0.0;
  double overtimePay = 0.0;
  double totalPay = 0.0;
  double tax = 0.0;
 
-class _MainAppState extends State<MainApp> {
+ void calculatePay() {
+    double hours = double.tryParse(hoursController.text) ?? 0.0;
+    double rate = double.tryParse(rateController.text) ?? 0.0;
+
+    if (hours <= 40) {
+      regularPay = hours * rate;
+      overtimePay = 0.0;
+    } else {
+      regularPay = 40 * rate;
+      overtimePay = (hours - 40) * rate * 1.5;
+    }
+
+    totalPay = regularPay + overtimePay;
+    tax = totalPay * 0.18; 
+    totalPay -= tax;
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,20 +66,31 @@ class _MainAppState extends State<MainApp> {
                 child: TextField(
                   controller: rateController,
                   decoration: InputDecoration(
-                    hintText: 'Hourly ',
+                    hintText: 'Hourly rate',
                   ),
                   keyboardType: TextInputType.number,
                 ),
               ),
-              ElevatedButton(onPressed: (){}, child: Text('Calculate')),
+              ElevatedButton(
+                onPressed: calculatePay, 
+                child: Text('Calculate')
+                ),
               SizedBox(height: 20),
               Center(
-                child: Text('Total Salary: '),
+                child: Column(
+                  children: [
+                    Text('Total Salary: '),
+                    Text("Regular Pay: \$${regularPay.toStringAsFixed(2)}"),
+                    Text("Overtime Pay: \$${overtimePay.toStringAsFixed(2)}"),
+                    Text("Total Pay: \$${totalPay.toStringAsFixed(2)}"),
+                    Text("Tax (18%): \$${tax.toStringAsFixed(2)}"),
+                  ],
+                ),
               ),
             ],
           ),
         ),
-      ),
+      ), 
     );
   }
 }
