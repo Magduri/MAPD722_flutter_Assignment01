@@ -34,9 +34,8 @@ double regularPay = 0.0;
     }
 
     totalPay = regularPay + overtimePay;
-    tax = totalPay * 0.18; 
-    totalPay -= tax;
-
+    tax = totalPay * 0.18;
+    
     setState(() {});
   }
 
@@ -46,9 +45,11 @@ double regularPay = 0.0;
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Pay Calculator'),
+          backgroundColor: Colors.blueAccent,
+          foregroundColor: Colors.white,
         ),
         body: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -56,26 +57,29 @@ double regularPay = 0.0;
                 child: TextField(
                   controller: hoursController,
                   decoration: InputDecoration(
-                    hintText: 'Enter number of hours',
+                    labelText: 'Enter number of hours worked',
+                    border: OutlineInputBorder()
                   ),
                   keyboardType: TextInputType.number,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Center(
                 child: TextField(
                   controller: rateController,
                   decoration: InputDecoration(
-                    hintText: 'Hourly rate',
+                    labelText: 'Hourly rate',
+                    border: OutlineInputBorder()
                   ),
                   keyboardType: TextInputType.number,
                 ),
               ),
+              const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: calculatePay, 
                 child: Text('Calculate')
                 ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Center(
                 child: Column(
                   children: [
