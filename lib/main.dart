@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MainApp());
@@ -16,14 +17,28 @@ class _MainAppState extends State<MainApp> {
 TextEditingController hoursController = TextEditingController();
 TextEditingController rateController = TextEditingController();
 
-double regularPay = 0.0;
+ double regularPay = 0.0;
  double overtimePay = 0.0;
  double totalPay = 0.0;
  double tax = 0.0;
+ String errorMessage = '';
 
  void calculatePay() {
-    double hours = double.tryParse(hoursController.text) ?? 0.0;
-    double rate = double.tryParse(rateController.text) ?? 0.0;
+    double? hours = double.tryParse(hoursController.text);
+    double? rate = double.tryParse(rateController.text);
+
+    // Validation Logic 
+  if (hours == null || rate == null) {
+    setState(() {
+      errorMessage = 'Please enter valid numbers';
+      totalPay = 0; 
+    });
+    return;
+  }
+
+  
+  setState(() {
+    errorMessage = '';
 
     if (hours <= 40) {
       regularPay = hours * rate;
@@ -36,7 +51,7 @@ double regularPay = 0.0;
     totalPay = regularPay + overtimePay;
     tax = totalPay * 0.18;
     
-    setState(() {});
+  });
   }
 
   @override
@@ -61,6 +76,7 @@ double regularPay = 0.0;
                     border: OutlineInputBorder()
                   ),
                   keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))],
                 ),
               ),
               const SizedBox(height: 20),
@@ -72,15 +88,25 @@ double regularPay = 0.0;
                     border: OutlineInputBorder()
                   ),
                   keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))],
                 ),
               ),
+
               const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: calculatePay, 
                 child: Text('Calculate')
                 ),
+
               const SizedBox(height: 20),
-              Center(
+              if (errorMessage.isNotEmpty)
+                Text(
+                  errorMessage,
+                  style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                ),
+                if (errorMessage.isEmpty && totalPay > 0)
+                ...[
+                  Center(
                 child: Column(
                   children: [
                     Text('Total Salary: '),
@@ -91,7 +117,9 @@ double regularPay = 0.0;
                   ],
                 ),
               ),
-               const SizedBox(height: 20),
+                ],
+              
+
                const Spacer(),
               Center(
                 child: Column(
