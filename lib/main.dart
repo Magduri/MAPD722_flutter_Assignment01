@@ -109,7 +109,7 @@ TextEditingController rateController = TextEditingController();
                   Center(
                 child: Column(
                   children: [
-                    Text('Total Salary: '),
+                    Text('Total Salary Details',),
                     Text("Regular Pay: \$${regularPay.toStringAsFixed(2)}"),
                     Text("Overtime Pay: \$${overtimePay.toStringAsFixed(2)}"),
                     Text("Total Pay: \$${totalPay.toStringAsFixed(2)}"),
@@ -121,24 +121,34 @@ TextEditingController rateController = TextEditingController();
               
 
                const Spacer(),
-              Center(
-                child: Column(
-                  children: [
-                    Text("Name: Iffat Ara Magduri ",
-                    style: TextStyle(fontWeight: FontWeight.bold, 
-                    color: Colors.blue),
-                    ),
-                    Text("Student ID: 301499817 ",
-                    style: TextStyle(fontWeight: FontWeight.bold, 
-                    color: Colors.blue),
-                    ),
-                  ],
-                ),
-              ),
+               Center(
+               child: MyInfo()),
             ],
           ),
         ),
       ), 
+    );
+  }
+} 
+
+class MyInfo extends StatelessWidget {
+  const MyInfo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          Text("Name: Iffat Ara Magduri ",
+          style: TextStyle(fontWeight: FontWeight.bold, 
+          color: Colors.blue),
+          ),
+          Text("Student ID: 301499817 ",
+          style: TextStyle(fontWeight: FontWeight.bold, 
+          color: Colors.blue),
+          ),
+        ],
+      ),
     );
   }
 }
