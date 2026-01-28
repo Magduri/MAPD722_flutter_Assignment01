@@ -91,6 +91,22 @@ double regularPay = 0.0;
                   ],
                 ),
               ),
+               const SizedBox(height: 20),
+               const Spacer(),
+              Center(
+                child: Column(
+                  children: [
+                    Text("Name: Iffat Ara Magduri ",
+                    style: TextStyle(fontWeight: FontWeight.bold, 
+                    color: Colors.blue),
+                    ),
+                    Text("Student ID: 301499817 ",
+                    style: TextStyle(fontWeight: FontWeight.bold, 
+                    color: Colors.blue),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
